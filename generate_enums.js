@@ -30,7 +30,7 @@ fs.readFile(burgerJsonPath, 'utf8', function(err, json) {
     var batch = new Batch();
     results.forEach(function(result) {
       batch.push(function(cb) {
-		var filepath = path.join(__dirname, 'enums', result.name + '.json');
+        var filepath = path.join(__dirname, 'enums', result.name + '.json');
         var serialised = JSON.stringify(result.json, null, 2);
         fs.writeFile(filepath, serialised, cb);
       });
@@ -48,8 +48,8 @@ function items(burger, cb) {
   for (var id in itemsJson) {
     item = itemsJson[id];
     itemEnum.push({
-	  id: item.numeric_id,
-	  textId: item.text_id,
+      id: item.numeric_id,
+      textId: item.text_id,
       displayName: item.display_name,
       name: item.text_id,
       stackSize: item.max_stack_size
@@ -74,31 +74,31 @@ function blocks(burger, cb) {
   ];
   for (var id in blocksJson) {
 
-	block = blocksJson[id];
-	let states = [];
-	if(block.states) {
+    block = blocksJson[id];
+    let states = [];
+    if(block.states) {
 
-		for(var index in block.states) {
-			let state = block.states[index];
-			states.push({
-				name: state.name,
-				type: state.type,
-				values: state.values,
-				num_values: state.num_values
-			})
-		}
+        for(var index in block.states) {
+            let state = block.states[index];
+            states.push({
+                name: state.name,
+                type: state.type,
+                values: state.values,
+                num_values: state.num_values
+            })
+        }
 
-	}
+    }
     
     blockEnum.push({
-	  id: block.numeric_id,
-	  textId: block.text_id,
+      id: block.numeric_id,
+      textId: block.text_id,
       displayName: block.display_name,
       name: block.name,
-	  hardness: block.hardness,
-	  states: states
-	});
-	
+      hardness: block.hardness,
+      states: states
+    });
+    
   }
   cb(null, {
     name: 'blocks',
@@ -128,7 +128,7 @@ function biomes(burger, cb) {
 }
 
 function recipes(burger, cb) {
-	
+    
   var recipesJson = burger[0].recipes;
   var recipeEnum = {};
   var recipeItemList, recipeItem, ingredients;
@@ -137,8 +137,8 @@ function recipes(burger, cb) {
 
     var recipeList = recipesJson[makesId];
     recipeEnum[makesId] = recipeItemList = [];
-	var j, shape, shapeLine;
-	
+    var j, shape, shapeLine;
+    
     for (var i = 0; i < recipeList.length; ++i) {
 
       var recipe = recipeList[i];
@@ -155,21 +155,21 @@ function recipes(burger, cb) {
           for (var k = 0; k < line.length; ++k) {
             shapeLine.push(line[k] || null);
           }
-		}
-		
+        }
+        
       } else if (recipe.type === 'shapeless') {
 
         recipeItemList.push({
           count: recipe.amount,
           metadata: recipe.metadata,
           ingredients: ingredients = []
-		});
-		
+        });
+        
         for(j = 0; j < recipe.ingredients.length; ++j) {
           var ingredient = [j];
           ingredients.push({ ...ingredient });
-		}
-		
+        }
+        
       } else {
         throw new Error("unexpected recipe type: " + recipe.type)
       }
