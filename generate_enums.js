@@ -30,7 +30,7 @@ fs.readFile(burgerJsonPath, 'utf8', function(err, json) {
     var batch = new Batch();
     results.forEach(function(result) {
       batch.push(function(cb) {
-        var filepath = path.join(__dirname, '..', 'enums', result.name + '.json');
+		var filepath = path.join(__dirname, 'enums', result.name + '.json');
         var serialised = JSON.stringify(result.json, null, 2);
         fs.writeFile(filepath, serialised, cb);
       });
@@ -48,10 +48,11 @@ function items(burger, cb) {
   for (var id in itemsJson) {
     item = itemsJson[id];
     itemEnum.push({
-      id: item.id,
+	  id: item.numeric_id,
+	  textId: item.text_id,
       displayName: item.display_name,
-      name: item.name,
-      stackSize: item.stack_size
+      name: item.text_id,
+      stackSize: item.max_stack_size
     });
   }
   cb(null, {
@@ -72,13 +73,32 @@ function blocks(burger, cb) {
     }
   ];
   for (var id in blocksJson) {
-    block = blocksJson[id];
+
+	block = blocksJson[id];
+	let states = [];
+	if(block.states) {
+
+		for(var index in block.states) {
+			let state = block.states[index];
+			states.push({
+				name: state.name,
+				type: state.type,
+				values: state.values,
+				num_values: state.num_values
+			})
+		}
+
+	}
+    
     blockEnum.push({
-      id: block.id,
+	  id: block.numeric_id,
+	  textId: block.text_id,
       displayName: block.display_name,
       name: block.name,
-      hardness: block.hardness
-    });
+	  hardness: block.hardness,
+	  states: states
+	});
+	
   }
   cb(null, {
     name: 'blocks',
@@ -87,7 +107,7 @@ function blocks(burger, cb) {
 }
 
 function biomes(burger, cb) {
-  var biomesJson = burger[0].biomes;
+  var biomesJson = burger[0].biomes.biome;
   var biome;
   var biomeEnum = [];
   for (var name in biomesJson) {
@@ -95,7 +115,7 @@ function biomes(burger, cb) {
     biomeEnum.push({
       id: biome.id,
       color: biome.color,
-      //height: biome.height,
+      textId: biome.text_id,
       name: biome.name,
       rainfall: biome.rainfall,
       temperature: biome.temperature
@@ -108,16 +128,22 @@ function biomes(burger, cb) {
 }
 
 function recipes(burger, cb) {
+	
   var recipesJson = burger[0].recipes;
   var recipeEnum = {};
   var recipeItemList, recipeItem, ingredients;
+
   for (var makesId in recipesJson) {
+
     var recipeList = recipesJson[makesId];
     recipeEnum[makesId] = recipeItemList = [];
-    var j, shape, shapeLine;
+	var j, shape, shapeLine;
+	
     for (var i = 0; i < recipeList.length; ++i) {
+
       var recipe = recipeList[i];
       if (recipe.type === 'shape') {
+
         recipeItemList.push({
           count: recipe.amount,
           metadata: recipe.metadata,
@@ -129,19 +155,21 @@ function recipes(burger, cb) {
           for (var k = 0; k < line.length; ++k) {
             shapeLine.push(line[k] || null);
           }
-        }
+		}
+		
       } else if (recipe.type === 'shapeless') {
+
         recipeItemList.push({
           count: recipe.amount,
           metadata: recipe.metadata,
           ingredients: ingredients = []
-        });
+		});
+		
         for(j = 0; j < recipe.ingredients.length; ++j) {
-          var ingredient = recipe.ingredients[j];
-          ingredients.push({
-            id: ingredient.id
-          });
-        }
+          var ingredient = [j];
+          ingredients.push({ ...ingredient });
+		}
+		
       } else {
         throw new Error("unexpected recipe type: " + recipe.type)
       }

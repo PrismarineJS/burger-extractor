@@ -1,0 +1,4 @@
+node_modules/
+enums/
+burger.json
+package-lock.json
