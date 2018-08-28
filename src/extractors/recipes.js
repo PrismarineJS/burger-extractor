@@ -20,7 +20,6 @@ module.exports = ({ recipes }, outputDirectory) => new Promise((resolve, reject)
 
 			const recipe = recipeList[i]
 
-			// recipeData[i] = [];
 			const recipeItemList = recipeData;
 
 			switch(recipe.type) {
