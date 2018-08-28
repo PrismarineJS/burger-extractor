@@ -1,4 +1,4 @@
 node_modules/
-enums/
+out/
 burger.json
 package-lock.json
