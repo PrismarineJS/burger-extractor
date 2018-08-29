@@ -1,38 +1,34 @@
 
 // Block extractor
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
 
 module.exports = ({ items }, outputDirectory) => new Promise((resolve, reject) => {
+  const extracted = []
 
-	const extracted = [];
+  // Extract data
+  for (let name in items.item) {
+    const item = items.item[name]
 
-	// Extract data
-	for(let name in items.item) {
+    const itemData = {
+      id: item.numeric_id,
+      textId: item.text_id,
+      displayName: item.display_name,
+      name: item.text_id,
+      stackSize: item.max_stack_size
+    }
 
-		const item = items.item[name];
+    extracted.push(itemData)
+  }
 
-		const itemData = {
-			id: item.numeric_id,
-			textId: item.text_id,
-			displayName: item.display_name,
-			name: item.text_id,
-			stackSize: item.max_stack_size
-		}
+  // Sort data
+  extracted.sort((a, b) => (a.id - b.id))
 
-		extracted.push(itemData)
-
-	}
-	
-	// Sort data
-	extracted.sort((a, b) => (a.id - b.id))
-
-	try {
-		fs.writeFileSync(path.join(outputDirectory, 'items.json'), JSON.stringify(extracted, null, 2))
-		resolve();
-	} catch(e) {
-		reject(e)
-	}
-
+  try {
+    fs.writeFileSync(path.join(outputDirectory, 'items.json'), JSON.stringify(extracted, null, 2))
+    resolve()
+  } catch (e) {
+    reject(e)
+  }
 })
