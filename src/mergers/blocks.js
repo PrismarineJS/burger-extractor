@@ -218,15 +218,19 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
 
     // Get block data from wiki
     try {
-      const blockData = await wiki.getBlockInfo(block.name)
+
+	  console.log(chalk.yellow(`      Fetching wiki data for ${block.name}`))	
+
+	  const blockData = await wiki.getBlockInfo(block.name.replace('wall_', '').replace('tall_', ''))
+	  
       block.transparent = blockData.transparent
       block.filterLight = blockData.filterLight
       block.emitLight = blockData.emitLight
-      block.boundingBox = blockData.boundingBox
+	  block.boundingBox = blockData.boundingBox
+	  
     } catch (e) {
       console.log(chalk.red(`      ${e.toString()}`))
     }
-    // console.log(chalk.yellow(`      Possible new block ${block.name}`))
   }
 
   fs.writeFileSync(blocksPath, JSON.stringify(blocks, null, 2))

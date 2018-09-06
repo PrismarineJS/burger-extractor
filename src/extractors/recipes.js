@@ -3,8 +3,10 @@
 
 const fs = require('fs')
 const path = require('path')
+const chalk = require('chalk')
 
 module.exports = ({ recipes }, outputDirectory) => new Promise((resolve, reject) => {
+  console.log(chalk.green('    Extracing recipe data'))
   const extracted = {}
 
   // For each recipe

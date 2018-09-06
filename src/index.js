@@ -66,7 +66,7 @@ const run = async () => {
   console.log(chalk.green('\n  Data merge started'))
   let date2 = Date.now()
   await Promise.all(mergers.map(merge => merge(outputDirectory, oldData)))
-  console.log(chalk.green(`  Data merged in ${chalk.yellow(`${Date.now() - date2}ms`)}`))
+  console.log(chalk.green(`  Data merged in ${chalk.yellow(`${(Date.now() - date2) / 1000}s`)}`))
 
   // TODO: Run the mcdata tests on the files to check that they're ok
 }
