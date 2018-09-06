@@ -78,7 +78,7 @@ module.exports = ({ recipes }, outputDirectory) => new Promise((resolve, reject)
 
   try {
     fs.writeFileSync(path.join(outputDirectory, 'recipes.json'), JSON.stringify(extracted, null, 2))
-	resolve()
+    resolve()
   } catch (e) {
     reject(e)
   }
