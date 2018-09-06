@@ -59,6 +59,8 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
     const [ oldBlock ] = Object.values(oldData.blocks).filter(oldBlock => oldBlock.name === block.name)
 
     if (oldBlock) {
+      console.log(chalk.yellow(`      Merged ${chalk.cyan(block.name)} with ${chalk.blue(oldBlock.name)} (Same block name)`))
+
       // Merge values
       block.transparent = oldBlock.transparent
       block.filterLight = oldBlock.filterLight
@@ -77,27 +79,34 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       const name = block.name.replace(new RegExp(colors.join('|')), '').substr(1)
 
       // Filter false positives
-      if (['nether_bricks', 'sandstone_slab', 'tone_wall_torch', 'tulip', 'orchid', 'ice'].includes(name)) continue
+      if (!['nether_bricks', 'sandstone_slab', 'tone_wall_torch', 'ice'].includes(name)) {
 
-      // Find if there's a block in the old data with the same name (red_wool -> wool, yellow_terracotta -> terracotta)
-      const [ oldBlock ] = Object.values(oldData.blocks).filter(oldBlock => {
-        if (name === 'banner') return oldBlock.name === 'standing_banner'
-        if (name === 'terracotta') return oldBlock.name === 'white_glazed_terracotta'
+        // Find if there's a block in the old data with the same name (red_wool -> wool, yellow_terracotta -> terracotta)
+        const [ oldBlock ] = Object.values(oldData.blocks).filter(oldBlock => {
+          if (name === 'banner') return oldBlock.name === 'standing_banner'
+          if (name === 'terracotta') return oldBlock.name === 'white_glazed_terracotta'
 
-        return oldBlock.name === name
-      })
+          if ([
+            'blue_orchid', 'red_tulip', 'orange_tulip', 'white_tulip', 'pink_tulip'
+          ].includes(block.name)) return oldBlock.name === 'red_flower'
 
-      if (!oldBlock) {
-        console.log(chalk.red(`      Could not find the old block match for ${name} (${block.name})`))
+          return oldBlock.name === name
+        })
+
+        if (!oldBlock) {
+          console.log(chalk.red(`      Could not find the old block match for ${name} (${block.name}) (Colored block check)`))
+          continue
+        }
+        console.log(chalk.yellow(`      Merged ${chalk.cyan(block.name)} with ${chalk.blue(oldBlock.name)} (Colored block check)`))
+
+        // Merge values
+        block.displayName = oldBlock.displayName
+        block.transparent = oldBlock.transparent
+        block.filterLight = oldBlock.filterLight
+        block.emitLight = oldBlock.emitLight
+        block.boundingBox = oldBlock.boundingBox
         continue
       }
-
-      // Merge values
-      block.transparent = oldBlock.transparent
-      block.filterLight = oldBlock.filterLight
-      block.emitLight = oldBlock.emitLight
-      block.boundingBox = oldBlock.boundingBox
-      continue
     }
 
     // Check if the block is a wooden variant of an old block
@@ -118,11 +127,14 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       })
 
       if (!oldBlock) {
-        console.log(chalk.red(`      Could not find the old block match for ${name} (${block.name})`))
+        console.log(chalk.red(`      Could not find the old block match for ${name} (${block.name}) (Wooden block check)`))
         continue
       }
 
+      console.log(chalk.yellow(`      Merged ${chalk.cyan(block.name)} with ${chalk.blue(oldBlock.name)} (Wooden block check)`))
+
       // Merge values
+      block.displayName = oldBlock.displayName
       block.transparent = oldBlock.transparent
       block.filterLight = oldBlock.filterLight
       block.emitLight = oldBlock.emitLight
@@ -159,7 +171,8 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       ].includes(block.name)) return oldBlock.name === 'double_plant'
 
       if ([
-        'dandelion', 'poppy', 'allium', 'azure_bluet', 'oxeye_daisy'
+        'dandelion', 'poppy', 'allium', 'azure_bluet', 'oxeye_daisy', 'blue_orchid',
+        'red_tulip', 'orange_tulip', 'white_tulip', 'pink_tulip'
       ].includes(block.name)) return oldBlock.name === 'red_flower'
 
       if ([
@@ -178,6 +191,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       if (block.name === 'wet_sponge') return oldBlock.name === 'sponge'
       if (block.name === 'cobweb') return oldBlock.name === 'web'
       if (block.name === 'spawner') return oldBlock.name === 'mob_spawner'
+      if (block.name === 'redstone_wall_torch') return oldBlock.name === 'redstone_torch'
       if (block.name === 'wall_torch') return oldBlock.name === 'torch'
       if (block.name === 'carved_pumpkin') return oldBlock.name === 'pumpkin'
       if (block.name === 'jack_o_lantern') return oldBlock.name === 'lit_pumpkin'
@@ -208,7 +222,10 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
 
     // We couldn't find the block in the old mcdata, assume it's a new block
     if (oldBlockAttempt) {
+      console.log(chalk.yellow(`      Merged ${chalk.cyan(block.name)} with ${chalk.blue(oldBlockAttempt.name)} (Manual check)`))
+
       // Merge values
+      block.displayName = oldBlockAttempt.displayName
       block.transparent = oldBlockAttempt.transparent
       block.filterLight = oldBlockAttempt.filterLight
       block.emitLight = oldBlockAttempt.emitLight
@@ -220,8 +237,9 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
     // Group the block maybe (*_coral_block, *_coal_wall_fan, *_wall_fan)
 
     // Get block data from wiki
+
     try {
-      console.log(chalk.yellow(`      Fetching wiki data for ${block.name}`))
+      console.log(chalk.yellow(`      Fetching wiki data for ${chalk.cyan(block.name)}`))
 
       const blockData = await wiki.getBlockInfo(block.name.replace('wall_', '').replace('tall_', ''))
 

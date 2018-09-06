@@ -53,7 +53,7 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
     }
 
     // Check if the block is a flower pot with a flower in it
-    if (!drops && idParsed.startsWith('potted')) {
+    if (idParsed.startsWith('potted_')) {
       drops.push('flower_pot')
       drops.push(idParsed.substring(7))
     }
