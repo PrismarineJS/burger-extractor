@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/PrismarineJS/burger-extractor/issues"
   },
-  "homepage": "https://github.com/PrismarineJS/burger-extractor#readme"
+  "homepage": "https://github.com/PrismarineJS/burger-extractor#readme",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "inquirer": "^6.2.0",
+    "minecraft-data": "^2.28.0"
+  }
 }
