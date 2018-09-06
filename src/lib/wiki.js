@@ -11,7 +11,7 @@ const wikitypeToBoundingBox = {
   'solid': ' block',
   'ingredient<br>block': 'block',
   'nonsolid block': 'empty',
-  'block entity': ' block',
+  'block entity': 'block',
   'item': 'empty',
   'foodstuff': 'empty',
   'tile entity': 'block',

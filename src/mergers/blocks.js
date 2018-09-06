@@ -80,7 +80,6 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
 
       // Filter false positives
       if (!['nether_bricks', 'sandstone_slab', 'tone_wall_torch', 'ice'].includes(name)) {
-
         // Find if there's a block in the old data with the same name (red_wool -> wool, yellow_terracotta -> terracotta)
         const [ oldBlock ] = Object.values(oldData.blocks).filter(oldBlock => {
           if (name === 'banner') return oldBlock.name === 'standing_banner'
@@ -187,6 +186,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       if (block.name === 'nether_quartz_ore') return oldBlock.name === 'quartz_ore'
       if (block.name === 'bricks') return oldBlock.name === 'brick_block'
       if (block.name === 'magma_block') return oldBlock.name === 'magma'
+      if (block.name === 'red_nether_bricks') return oldBlock.name === 'red_nether_brick'
       if (block.name === 'nether_bricks') return oldBlock.name === 'nether_brick'
       if (block.name === 'wet_sponge') return oldBlock.name === 'sponge'
       if (block.name === 'cobweb') return oldBlock.name === 'web'
@@ -239,7 +239,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
     // Get block data from wiki
 
     try {
-      console.log(chalk.yellow(`      Fetching wiki data for ${chalk.cyan(block.name)}`))
+      console.log(chalk.yellow(`      Extracting ${chalk.cyan(block.name)} from minecraft wiki. `))
 
       const blockData = await wiki.getBlockInfo(block.name.replace('wall_', '').replace('tall_', ''))
 
