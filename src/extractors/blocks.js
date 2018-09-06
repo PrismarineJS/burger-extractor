@@ -15,7 +15,6 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
 
   // Extract data
   for (let name in blocks.block) {
-
     // For each block extracted by burger
     const block = blocks.block[name]
 
