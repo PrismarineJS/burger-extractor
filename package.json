@@ -20,6 +20,7 @@
   "dependencies": {
     "chalk": "^2.4.1",
     "inquirer": "^6.2.0",
-    "minecraft-data": "^2.28.0"
+    "minecraft-data": "^2.28.0",
+    "parse-wikitext": "^1.0.0"
   }
 }

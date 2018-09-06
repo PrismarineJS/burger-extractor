@@ -7,8 +7,9 @@
 
 const fs = require('fs')
 const path = require('path')
-const inquirer = require('inquirer')
 const chalk = require('chalk')
+
+const wiki = require('../lib/wiki')
 
 const colors = [
   'white',
@@ -170,6 +171,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
         'grass_block', 'coarse_dirt', 'podzol'
       ].includes(block.name)) return oldBlock.name === 'grass'
 
+      if (block.name === 'nether_bricks') return oldBlock.name === 'nether_brick'
       if (block.name === 'wet_sponge') return oldBlock.name === 'sponge'
       if (block.name === 'cobweb') return oldBlock.name === 'web'
       if (block.name === 'spawner') return oldBlock.name === 'mob_spawner'
@@ -211,9 +213,20 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       continue
     }
 
-    console.log(chalk.yellow(`      Possible new block ${block.name}`))
     // The block variable is now a new block. We require the user or the wiki to give us the data
     // Group the block maybe (*_coral_block, *_coal_wall_fan, *_wall_fan)
+
+    // Get block data from wiki
+    try {
+      const blockData = await wiki.getBlockInfo(block.name)
+      block.transparent = blockData.transparent
+      block.filterLight = blockData.filterLight
+      block.emitLight = blockData.emitLight
+      block.boundingBox = blockData.boundingBox
+    } catch (e) {
+      console.log(chalk.red(`      ${e.toString()}`))
+    }
+    // console.log(chalk.yellow(`      Possible new block ${block.name}`))
   }
 
   fs.writeFileSync(blocksPath, JSON.stringify(blocks, null, 2))
