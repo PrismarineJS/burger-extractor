@@ -77,7 +77,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       const name = block.name.replace(new RegExp(colors.join('|')), '').substr(1)
 
       // Filter false positives
-      if (['nether_bricks', 'sandstone_slab', 'tone_wall_torch', 'tulip', 'orchid', 'sand', 'ice'].includes(name)) continue
+      if (['nether_bricks', 'sandstone_slab', 'tone_wall_torch', 'tulip', 'orchid', 'ice'].includes(name)) continue
 
       // Find if there's a block in the old data with the same name (red_wool -> wool, yellow_terracotta -> terracotta)
       const [ oldBlock ] = Object.values(oldData.blocks).filter(oldBlock => {
@@ -171,6 +171,9 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
         'grass_block', 'coarse_dirt', 'podzol'
       ].includes(block.name)) return oldBlock.name === 'grass'
 
+      if (block.name === 'nether_quartz_ore') return oldBlock.name === 'quartz_ore'
+      if (block.name === 'bricks') return oldBlock.name === 'brick_block'
+      if (block.name === 'magma_block') return oldBlock.name === 'magma'
       if (block.name === 'nether_bricks') return oldBlock.name === 'nether_brick'
       if (block.name === 'wet_sponge') return oldBlock.name === 'sponge'
       if (block.name === 'cobweb') return oldBlock.name === 'web'
