@@ -1,8 +1,7 @@
 /*
     Block extractor
 
-    This script does not extract the following data: emitLight, filterLight, boundingBox and transparent
-
+    This script does not extract the following data: emitLight, filterLight, boundingBox, stackSize and transparent
 */
 
 const fs = require('fs')

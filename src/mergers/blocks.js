@@ -2,7 +2,6 @@
     Block merger
 
     This script will try to find missing block data from the old mcdata blocks
-
 */
 
 const fs = require('fs')
@@ -66,6 +65,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       block.filterLight = oldBlock.filterLight
       block.emitLight = oldBlock.emitLight
       block.boundingBox = oldBlock.boundingBox
+      block.stackSize = oldBlock.stackSize
       continue
     }
 
@@ -100,6 +100,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
 
         // Merge values
         block.displayName = oldBlock.displayName
+        block.stackSize = oldBlock.stackSize
         block.transparent = oldBlock.transparent
         block.filterLight = oldBlock.filterLight
         block.emitLight = oldBlock.emitLight
@@ -134,6 +135,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
 
       // Merge values
       block.displayName = oldBlock.displayName
+      block.stackSize = oldBlock.stackSize
       block.transparent = oldBlock.transparent
       block.filterLight = oldBlock.filterLight
       block.emitLight = oldBlock.emitLight
@@ -226,6 +228,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
 
       // Merge values
       block.displayName = oldBlockAttempt.displayName
+      block.stackSize = oldBlockAttempt.stackSize
       block.transparent = oldBlockAttempt.transparent
       block.filterLight = oldBlockAttempt.filterLight
       block.emitLight = oldBlockAttempt.emitLight
@@ -244,6 +247,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       const blockData = await wiki.getBlockInfo(block.name.replace('wall_', '').replace('tall_', ''))
 
       block.transparent = blockData.transparent
+      block.stackSize = blockData.stackSize
       block.filterLight = blockData.filterLight
       block.emitLight = blockData.emitLight
       block.boundingBox = blockData.boundingBox

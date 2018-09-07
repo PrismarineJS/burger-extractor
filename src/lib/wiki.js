@@ -56,6 +56,7 @@ async function getBlockInfo (block) {
       }
 
       resolve({
+        stackSize: parseStackable(infoBox.values.stackable),
         transparent: infoBox.values.transparent !== 'No',
         filterLight: filterLight,
         emitLight: emitLight,
@@ -63,6 +64,17 @@ async function getBlockInfo (block) {
       })
     })
   })
+}
+
+function parseStackable (stackable) {
+  if (stackable === undefined) return 0
+  if (stackable.indexOf('N/A') > -1) return 0
+  if (stackable.indexOf('No') > -1) return 1
+
+  const regex = /Yes[,]? \(([0-9]+)\)/gm
+  const match = regex.exec(stackable)
+
+  if (match) return parseInt(match[1])
 }
 
 module.exports = {
