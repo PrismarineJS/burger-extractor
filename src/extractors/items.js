@@ -15,7 +15,6 @@ module.exports = ({ items }, outputDirectory) => new Promise((resolve, reject) =
 
     const itemData = {
       id: item.numeric_id,
-      textId: item.text_id,
       displayName: item.display_name,
       name: item.text_id,
       stackSize: item.max_stack_size

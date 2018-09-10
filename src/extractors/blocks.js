@@ -77,7 +77,11 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
 
     let diggable = true
 
-    if (block.hardness === -1.0) diggable = false
+    if (block.hardness === -1.0) {
+      diggable = false
+      blockData.hardness = null
+    }
+
     if (block.text_id === 'water' || block.text_id === 'lava') diggable = false
 
     blockData.diggable = diggable
