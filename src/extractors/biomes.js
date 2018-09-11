@@ -15,8 +15,8 @@ module.exports = ({ biomes }, outputDirectory) => new Promise((resolve, reject) 
 
     const biomeData = {
       id: biome.id,
-      textId: biome.text_id,
-      name: biome.name,
+      name: biome.text_id,
+      displayName: biome.name,
       rainfall: biome.rainfall,
       temperature: biome.temperature
     }
