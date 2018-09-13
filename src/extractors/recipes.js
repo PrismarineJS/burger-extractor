@@ -5,15 +5,19 @@ const fs = require('fs')
 const path = require('path')
 const chalk = require('chalk')
 
-module.exports = ({ recipes }, outputDirectory) => new Promise((resolve, reject) => {
+module.exports = ({ recipes, items }, outputDirectory) => new Promise((resolve, reject) => {
   console.log(chalk.green('    Extracing recipe data'))
   const extracted = {}
+
+  function findItemByName(name) {
+    return items.item[name].numeric_id || null
+  }
 
   // For each recipe
   for (let name in recipes) {
     const recipeList = recipes[name]
     const recipeData = []
-    extracted[name] = recipeData
+    extracted[findItemByName(name)] = recipeData
 
     // For each possible recipe for item
     for (var i = 0; i < recipeList.length; ++i) {
@@ -31,7 +35,7 @@ module.exports = ({ recipes }, outputDirectory) => new Promise((resolve, reject)
             inShape: inShape = [],
             result: {
               count: recipe.makes.count,
-              textId: recipe.makes.name
+              id: findItemByName(recipe.makes.name)
             }
           })
 
@@ -41,7 +45,7 @@ module.exports = ({ recipes }, outputDirectory) => new Promise((resolve, reject)
             const shapeLine = []
 
             for (var k = 0; k < line.length; ++k) {
-              if (line[k]) shapeLine.push(line[k].name)
+              if (line[k]) shapeLine.push(findItemByName(line[k].name));
               else shapeLine.push(null)
             }
 
@@ -59,14 +63,14 @@ module.exports = ({ recipes }, outputDirectory) => new Promise((resolve, reject)
             ingredients: ingredients = [],
             result: {
               count: recipe.makes.count,
-              textId: recipe.makes.name
+              id: findItemByName(recipe.makes.name)
             }
           })
 
           // For each recipe ingredient
           for (let j = 0; j < recipe.ingredients.length; ++j) {
             var ingredient = recipe.ingredients[j]
-            ingredients.push(ingredient.name)
+            ingredients.push(findItemByName(ingredient.name));
           }
 
           break
