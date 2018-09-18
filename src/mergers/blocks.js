@@ -60,12 +60,14 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
     if (oldBlock) {
       console.log(chalk.yellow(`      Merged ${chalk.cyan(block.name)} with ${chalk.blue(oldBlock.name)} (Same block name)`))
 
-      // Merge values
+	  // Merge values
       block.transparent = oldBlock.transparent
       block.filterLight = oldBlock.filterLight
       block.emitLight = oldBlock.emitLight
       block.boundingBox = oldBlock.boundingBox
-      block.stackSize = oldBlock.stackSize
+	  block.stackSize = oldBlock.stackSize
+	  block.material = oldBlock.material
+	  block.harvestTools = oldBlock.harvestTools
       continue
     }
 
@@ -104,7 +106,9 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
         block.transparent = oldBlock.transparent
         block.filterLight = oldBlock.filterLight
         block.emitLight = oldBlock.emitLight
-        block.boundingBox = oldBlock.boundingBox
+		block.boundingBox = oldBlock.boundingBox
+		block.material = oldBlock.material
+		block.harvestTools = oldBlock.harvestTools
         continue
       }
     }
@@ -139,7 +143,9 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       block.transparent = oldBlock.transparent
       block.filterLight = oldBlock.filterLight
       block.emitLight = oldBlock.emitLight
-      block.boundingBox = oldBlock.boundingBox
+	  block.boundingBox = oldBlock.boundingBox
+	  block.material = oldBlock.material
+	  block.harvestTools = oldBlock.harvestTools
       continue
     }
 
@@ -232,7 +238,9 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       block.transparent = oldBlockAttempt.transparent
       block.filterLight = oldBlockAttempt.filterLight
       block.emitLight = oldBlockAttempt.emitLight
-      block.boundingBox = oldBlockAttempt.boundingBox
+	  block.boundingBox = oldBlockAttempt.boundingBox
+	  block.material = oldBlockAttempt.material
+	  block.harvestTools = oldBlockAttempt.harvestTools
       continue
     }
 
@@ -250,7 +258,9 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       block.stackSize = blockData.stackSize
       block.filterLight = blockData.filterLight
       block.emitLight = blockData.emitLight
-      block.boundingBox = blockData.boundingBox
+	  block.boundingBox = blockData.boundingBox
+	  block.material = blockData.material
+	  block.harvestTools = blockData.harvestTools
     } catch (e) {
       console.log(chalk.red(`      ${e.toString()}`))
     }

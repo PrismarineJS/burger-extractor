@@ -33,7 +33,7 @@ async function getBlockInfo (block) {
       if (err) return reject(err)
 
       const sectionObject = wikiTextParser.pageToSectionObject(data)
-      const infoBox = wikiTextParser.parseInfoBox(sectionObject['content'])
+	  const infoBox = wikiTextParser.parseInfoBox(sectionObject['content'])
 
       // Get filter light
       let filterLight = 15
@@ -53,9 +53,11 @@ async function getBlockInfo (block) {
       if (infoBox.values.light && infoBox.values.light.toLowerCase() !== 'no') {
         let n = parseInt(infoBox.values.light.split(',')[1])
         if (!isNaN(n) && n !== null) emitLight = n
-      }
-
+	  }
+	  
       resolve({
+		material: getMaterial(infoBox.values.tool),
+		harvestTools: toolToHarvestTools(infoBox.values.tool),
         stackSize: parseStackable(infoBox.values.stackable),
         transparent: infoBox.values.transparent !== 'No',
         filterLight: filterLight,
@@ -64,6 +66,66 @@ async function getBlockInfo (block) {
       })
     })
   })
+}
+
+// Copy pasted from the Prismarine minecraft-wiki-extractor. Not sure how it works, don't really care. It's just messy code, good luck trying to read this
+const toolMaterials=["wooden", "golden", "stone", "iron", "diamond"];
+function toolToHarvestTools(tool) {
+
+  if(!tool) return
+
+  tool = tool.toLowerCase().trim();
+
+  if(["any","n/a","all","none","bucket"].indexOf(tool)!=-1) return;
+
+  if(["axe","shovel","pickaxe","spade","sword","shears"].indexOf(tool)!=-1) return;
+
+  if([
+	  "axe", "shovel", "shears", "spade",
+	  "pickaxe", "wooden pickaxe", "iron pickaxe", "stone pickaxe", "diamond pickaxe",
+	  "bucket", "sword", "wooden shovel"
+	].indexOf(tool) === -1) {
+    console.log(`Missing tool ${tool}`); // this shouldn't happen
+    return;
+  }
+
+  const harvestTools = [];
+
+  if(tool === 'sword') tool = 'wooden sword'; //for cobweb
+  else if(tool === 'shears') harvestTools.push('shears')
+  else {
+    let parts = tool.split(' ');
+    let material = parts[0];
+    let toolName = parts[1];
+    let adding = false;
+	toolMaterials.forEach((toolMaterial) => {
+
+	  if(toolMaterial === material) adding = true;
+      if(adding) harvestTools.push(`${toolMaterial}_${toolName}`)
+	  
+    });
+  }
+
+  return harvestTools.reduce((acc,harvestTool) => {
+    acc[harvestTool] = true;
+    return acc;
+  }, {});
+
+}
+
+function getMaterial(tool) {
+
+	if(!tool) return;
+	if(tool === 'N/A') return;
+	if(tool === 'any' || tool === 'Any') return;
+
+	if(tool === 'shears') return 'plant';
+	if(tool === 'Wooden pickaxe') return 'rock';
+	if(tool === 'pickaxe' || tool === 'Pickaxe') return 'rock';
+
+	console.log(tool);
+	return tool;
+
 }
 
 function parseStackable (stackable) {
