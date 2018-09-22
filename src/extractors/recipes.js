@@ -9,7 +9,7 @@ module.exports = ({ recipes, items }, outputDirectory) => new Promise((resolve, 
   console.log(chalk.green('    Extracing recipe data'))
   const extracted = {}
 
-  function findItemByName(name) {
+  function findItemByName (name) {
     return items.item[name].numeric_id || null
   }
 
@@ -45,7 +45,7 @@ module.exports = ({ recipes, items }, outputDirectory) => new Promise((resolve, 
             const shapeLine = []
 
             for (var k = 0; k < line.length; ++k) {
-              if (line[k]) shapeLine.push(findItemByName(line[k].name));
+              if (line[k]) shapeLine.push(findItemByName(line[k].name))
               else shapeLine.push(null)
             }
 
@@ -70,7 +70,7 @@ module.exports = ({ recipes, items }, outputDirectory) => new Promise((resolve, 
           // For each recipe ingredient
           for (let j = 0; j < recipe.ingredients.length; ++j) {
             var ingredient = recipe.ingredients[j]
-            ingredients.push(findItemByName(ingredient.name));
+            ingredients.push(findItemByName(ingredient.name))
           }
 
           break

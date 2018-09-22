@@ -49,6 +49,14 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
   // Read required files
   const blocksPath = path.join(outputDirectory, 'blocks.json')
   const blocks = JSON.parse(fs.readFileSync(blocksPath))
+  const itemsPath = path.join(outputDirectory, 'items.json')
+  const items = JSON.parse(fs.readFileSync(itemsPath))
+
+  function getItemIdFromName (name) {
+    const found = items.filter(item => item.name === name)
+    if (found && found.length) return found[0].id
+    return null
+  }
 
   // Loop for each block
   for (let i = 0; i < blocks.length; i++) {
@@ -60,14 +68,14 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
     if (oldBlock) {
       console.log(chalk.yellow(`      Merged ${chalk.cyan(block.name)} with ${chalk.blue(oldBlock.name)} (Same block name)`))
 
-	  // Merge values
+      // Merge values
       block.transparent = oldBlock.transparent
       block.filterLight = oldBlock.filterLight
       block.emitLight = oldBlock.emitLight
       block.boundingBox = oldBlock.boundingBox
-	  block.stackSize = oldBlock.stackSize
-	  block.material = oldBlock.material
-	  block.harvestTools = oldBlock.harvestTools
+      block.stackSize = oldBlock.stackSize
+      block.material = oldBlock.material
+      block.harvestTools = oldBlock.harvestTools
       continue
     }
 
@@ -106,9 +114,9 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
         block.transparent = oldBlock.transparent
         block.filterLight = oldBlock.filterLight
         block.emitLight = oldBlock.emitLight
-		block.boundingBox = oldBlock.boundingBox
-		block.material = oldBlock.material
-		block.harvestTools = oldBlock.harvestTools
+        block.boundingBox = oldBlock.boundingBox
+        block.material = oldBlock.material
+        block.harvestTools = oldBlock.harvestTools
         continue
       }
     }
@@ -143,9 +151,9 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       block.transparent = oldBlock.transparent
       block.filterLight = oldBlock.filterLight
       block.emitLight = oldBlock.emitLight
-	  block.boundingBox = oldBlock.boundingBox
-	  block.material = oldBlock.material
-	  block.harvestTools = oldBlock.harvestTools
+      block.boundingBox = oldBlock.boundingBox
+      block.material = oldBlock.material
+      block.harvestTools = oldBlock.harvestTools
       continue
     }
 
@@ -238,9 +246,9 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       block.transparent = oldBlockAttempt.transparent
       block.filterLight = oldBlockAttempt.filterLight
       block.emitLight = oldBlockAttempt.emitLight
-	  block.boundingBox = oldBlockAttempt.boundingBox
-	  block.material = oldBlockAttempt.material
-	  block.harvestTools = oldBlockAttempt.harvestTools
+      block.boundingBox = oldBlockAttempt.boundingBox
+      block.material = oldBlockAttempt.material
+      block.harvestTools = oldBlockAttempt.harvestTools
       continue
     }
 
@@ -258,10 +266,18 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       block.stackSize = blockData.stackSize
       block.filterLight = blockData.filterLight
       block.emitLight = blockData.emitLight
-	  block.boundingBox = blockData.boundingBox
-	  block.material = blockData.material
-	  block.harvestTools = blockData.harvestTools
+      block.boundingBox = blockData.boundingBox
+      block.material = blockData.material
+      block.harvestTools = blockData.harvestTools
+
+      if (block.harvestTools) {
+        Object.keys(block.harvestTools).map(key => {
+          delete block.harvestTools[key]
+          block.harvestTools[getItemIdFromName(key)] = true
+        })
+      }
     } catch (e) {
+      console.log(e)
       console.log(chalk.red(`      ${e.toString()}`))
     }
   }

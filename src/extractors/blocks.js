@@ -12,7 +12,7 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
   console.log(chalk.green('    Extracing block data'))
   const extracted = []
 
-  function findItemByName(name) {
+  function findItemByName (name) {
     return items.item[name].numeric_id || null
   }
 
@@ -58,7 +58,7 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
     // Check if the block is a flower pot with a flower in it
     if (idParsed.startsWith('potted_')) {
       drops.push(findItemByName('flower_pot'))
-      drops.push(findItemByName(idParsed.substring(7)));
+      drops.push(findItemByName(idParsed.substring(7)))
     }
 
     // Manually check for other possible blocks
