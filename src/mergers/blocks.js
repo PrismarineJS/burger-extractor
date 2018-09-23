@@ -57,6 +57,40 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
     if (found && found.length) return found[0].id
     return null
   }
+  
+  function oldIdtoNewId(id) {
+
+	const oldItem = Object.values(oldData.items).filter(item => item.id === id);
+
+	if(!oldItem.length) {
+		console.log(chalk.red(`Can't find old item with id: ${id}`))
+		return null;
+	}
+
+	const newItem = items.filter(item => item.name === oldItem[0].name);
+
+	if(!newItem.length) {
+		console.log(chalk.red(`Can't find new item with name: ${oldItem[0].name}`))
+		return null;
+	}
+
+	return newItem[0].id;
+
+  }
+
+  function convertHarvestTools(harvestTools) {
+
+	if(!harvestTools) return;
+
+	const newHarvestTools = {};
+
+	Object.keys(harvestTools).forEach(key => {
+		newHarvestTools[oldIdtoNewId(parseInt(key))] = true;
+	})
+
+	return newHarvestTools;
+
+  }
 
   // Loop for each block
   for (let i = 0; i < blocks.length; i++) {
@@ -75,7 +109,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       block.boundingBox = oldBlock.boundingBox
       block.stackSize = oldBlock.stackSize
       block.material = oldBlock.material
-      block.harvestTools = oldBlock.harvestTools
+      block.harvestTools = convertHarvestTools(oldBlock.harvestTools)
       continue
     }
 
@@ -116,7 +150,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
         block.emitLight = oldBlock.emitLight
         block.boundingBox = oldBlock.boundingBox
         block.material = oldBlock.material
-        block.harvestTools = oldBlock.harvestTools
+        block.harvestTools = convertHarvestTools(oldBlock.harvestTools)
         continue
       }
     }
@@ -153,7 +187,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       block.emitLight = oldBlock.emitLight
       block.boundingBox = oldBlock.boundingBox
       block.material = oldBlock.material
-      block.harvestTools = oldBlock.harvestTools
+      block.harvestTools = convertHarvestTools(oldBlock.harvestTools)
       continue
     }
 
@@ -248,7 +282,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       block.emitLight = oldBlockAttempt.emitLight
       block.boundingBox = oldBlockAttempt.boundingBox
       block.material = oldBlockAttempt.material
-      block.harvestTools = oldBlockAttempt.harvestTools
+      block.harvestTools = convertHarvestTools(oldBlockAttempt.harvestTools)
       continue
     }
 
