@@ -2,10 +2,7 @@
   "name": "burger-extractor",
   "version": "1.0.0",
   "description": "A burger extractor",
-  "main": "generate_enums.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "src/main.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/PrismarineJS/burger-extractor.git"
@@ -21,6 +18,9 @@
   },
   "homepage": "https://github.com/PrismarineJS/burger-extractor#readme",
   "dependencies": {
-    "batch": "^0.5.3"
+    "chalk": "^2.4.1",
+    "inquirer": "^6.2.0",
+    "minecraft-data": "^2.28.0",
+    "parse-wikitext": "^1.0.0"
   }
 }
