@@ -26,7 +26,9 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
       id: block.numeric_id,
       displayName: block.display_name,
       name: block.text_id,
-      hardness: block.hardness || 0
+      hardness: block.hardness || 0,
+      minStateId: block.min_state_id,
+      maxStateId: block.max_state_id
     }
 
     // Get block states
