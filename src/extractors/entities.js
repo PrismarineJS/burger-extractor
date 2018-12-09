@@ -24,6 +24,10 @@ module.exports = ({ entities }, outputDirectory) => new Promise((resolve, reject
       category: 'Hostile mobs'
     }
 
+    if(entity.id === undefined) {
+      continue
+    }
+
     if (!entityData.width) {
       entityData.width = 0
       entityData.height = 0

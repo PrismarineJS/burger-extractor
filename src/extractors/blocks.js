@@ -8,6 +8,12 @@ const fs = require('fs')
 const path = require('path')
 const chalk = require('chalk')
 
+
+function jsUcfirst(string)
+{
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, reject) => {
   console.log(chalk.green('    Extracing block data'))
   const extracted = []
@@ -24,7 +30,7 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
     // Initial block data
     const blockData = {
       id: block.numeric_id,
-      displayName: block.display_name,
+      displayName: block.display_name === undefined ? jsUcfirst(block.text_id.replace(/_/g, ' ')) : block.display_name,
       name: block.text_id,
       hardness: block.hardness || 0,
       minStateId: block.min_state_id,
