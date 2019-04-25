@@ -24,7 +24,7 @@ This extractor also has the caveat that if for example, an already existing bloc
 ## Usage
 
 ```bash
-$ node src/main <burger file> <old versrion>
+$ node src/main <burger file> <old version>
 ```
 
 ## Example 
