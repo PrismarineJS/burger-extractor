@@ -59,14 +59,24 @@ module.exports = ({ items }, outputDirectory) => new Promise((resolve, reject) =
 		case "music_disc_wait":
 		itemData.displayName = "Wait Disc"
 		break;
+		case "air":
+		itemData.stackSize = 0
+		break;
+		case "bow":
+		case "carrot_on_a_stick":
+		case "elytra":
+		case "fishing_rod":
+		case "flint_and_steel":
+		case "shears":
+		case "shield":
 		case "trident":
 		itemData.stackSize = 1
 		break;
 		default:
 		const len = itemData.name.length
-		if(itemData.name.substr(len - 7) == "_helmet" || itemData.name.substr(len - 11) == "_chestplate" || itemData.name.substr(len - 9) == "_leggings" || itemData.name.substr(len - 6) == "_boots")
+		if(itemData.name.substr(len - 7) == "_helmet" || itemData.name.substr(len - 11) == "_chestplate" || itemData.name.substr(len - 9) == "_leggings" || itemData.name.substr(len - 6) == "_boots" || itemData.name.substr(len - 4) == "_axe" || itemData.name.substr(len - 4) == "_hoe" || itemData.name.substr(len - 8) == "_pickaxe" || itemData.name.substr(len - 7) == "_shovel" || itemData.name.substr(len - 6) == "_sword")
 		{
-			itemData.stackSize = 1;
+			itemData.stackSize = 1
 		}
 	}
 
