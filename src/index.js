@@ -19,6 +19,7 @@ const extractors = [
 
 const mergers = [
   require('./mergers/blocks')
+  require('./mergers/entities')
 ]
 
 // Check arguments

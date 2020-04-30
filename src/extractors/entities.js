@@ -21,7 +21,7 @@ module.exports = ({ entities }, outputDirectory) => new Promise((resolve, reject
       width: entity.width,
       height: entity.height,
       type: 'mob',
-      category: 'Hostile mobs'
+      // category: 'Hostile mobs'
     }
 
     if(entity.id === undefined) {
