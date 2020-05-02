@@ -1,7 +1,7 @@
 /*
     Entity merger
 
-    This script tries to set entity.category from oldData
+    This script tries to set entity.category and entity.type from oldData
 */
 
 const fs = require('fs')
@@ -15,11 +15,10 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
   const entities = JSON.parse(fs.readFileSync(entitiesPath))
 
   for (let entity of entities) {
-    if (!entity.category) {
-      const oldEntity = oldData.entitiesByName[entity.name]
-      if (oldEntity && oldEntity.category) {
-        entity.category = oldEntity.category
-      }
+    const oldEntity = oldData.entitiesByName[entity.name]
+    if (oldEntity) {
+      if (oldEntity.category) entity.category = oldEntity.category
+      if (oldEntity.type) entity.type = oldEntity.type
     }
   }
 

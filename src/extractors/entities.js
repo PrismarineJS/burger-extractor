@@ -20,9 +20,10 @@ module.exports = ({ entities }, outputDirectory) => new Promise((resolve, reject
       displayName: entity.display_name,
       width: entity.width,
       height: entity.height,
-      type: 'mob',
-      // category: 'Hostile mobs'
+      type: 'UNKNOWN',
+      category: 'UNKNOWN'
     }
+    // .type and .category are set in the entity merger
 
     if(entity.id === undefined) {
       continue
@@ -32,8 +33,6 @@ module.exports = ({ entities }, outputDirectory) => new Promise((resolve, reject
       entityData.width = 0
       entityData.height = 0
     }
-
-    // TODO: Get entity type and category. Use old version to get this data and set new data to UNKNOWN for user to manually set
 
     extracted.push(entityData)
   }

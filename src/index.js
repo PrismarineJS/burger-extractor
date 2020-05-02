@@ -18,7 +18,7 @@ const extractors = [
 // Import mergers
 
 const mergers = [
-  require('./mergers/blocks')
+  require('./mergers/blocks'),
   require('./mergers/entities')
 ]
 
