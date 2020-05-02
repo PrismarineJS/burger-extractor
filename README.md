@@ -18,17 +18,17 @@ Right now, there's quite a conversion process going on on the block merger as wi
 
 For future updates, this process of guessing the old block name won't be required as we don't expect any more block name changes, just new blocks.
 
-This extractor also has the caveat that if for example, an already existing block changes one of it's properties, it won't be updated on the extracted data. Right now changes like this should be handled specifically either by code or by manually modifying the extracted json files. 
+This extractor also has the caveat that if for example, an already existing block changes one of it's properties, it won't be updated on the extracted data. Right now changes like this should be handled specifically either by code or by manually modifying the extracted json files.
 
 
 ## Usage
 
 ```bash
-$ node src/main <burger file> <old version>
+$ node src/index <burger file> <old version>
 ```
 
-## Example 
+## Example
 
 ```bash
-$ node src/main burger.json 1.12
+$ node src/index burger.json 1.12
 ```

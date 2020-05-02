@@ -6,7 +6,7 @@ const path = require('path')
 const chalk = require('chalk')
 
 module.exports = ({ entities }, outputDirectory) => new Promise((resolve, reject) => {
-  console.log(chalk.green('    Extracing entity data'))
+  console.log(chalk.green('    Extracting entity data'))
   const extracted = []
 
   // Extract data

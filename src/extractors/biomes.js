@@ -6,7 +6,7 @@ const path = require('path')
 const chalk = require('chalk')
 
 module.exports = ({ biomes }, outputDirectory) => new Promise((resolve, reject) => {
-  console.log(chalk.green('    Extracing biome data'))
+  console.log(chalk.green('    Extracting biome data'))
   const extracted = []
 
   // Extract data
