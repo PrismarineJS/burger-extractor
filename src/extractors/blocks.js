@@ -15,7 +15,7 @@ function jsUcfirst(string)
 }
 
 module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, reject) => {
-  console.log(chalk.green('    Extracing block data'))
+  console.log(chalk.green('    Extracting block data'))
   const extracted = []
 
   function findItemByName (name) {

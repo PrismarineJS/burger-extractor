@@ -6,7 +6,7 @@ const path = require('path')
 const chalk = require('chalk')
 
 module.exports = ({ recipes, items }, outputDirectory) => new Promise((resolve, reject) => {
-  console.log(chalk.green('    Extracing recipe data'))
+  console.log(chalk.green('    Extracting recipe data'))
   const extracted = {}
 
   function findItemByName (name) {
