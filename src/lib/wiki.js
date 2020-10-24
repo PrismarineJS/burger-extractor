@@ -4,23 +4,23 @@ const wikiTextParser = new WikiTextParser('minecraft.gamepedia.com')
 const wikitypeToBoundingBox = {
   'solid block': 'block',
   'non-solid block': 'empty',
-  'plant': 'empty',
-  'fluid': 'empty',
+  plant: 'empty',
+  fluid: 'empty',
   'non-solid': 'empty',
-  'technical': 'block',
-  'solid': ' block',
+  technical: 'block',
+  solid: ' block',
   'ingredient<br>block': 'block',
   'nonsolid block': 'empty',
   'block entity': 'block',
-  'item': 'empty',
-  'foodstuff': 'empty',
+  item: 'empty',
+  foodstuff: 'empty',
   'tile entity': 'block',
-  'tool': 'empty',
-  'food': 'empty',
+  tool: 'empty',
+  food: 'empty',
   'semi-solid': 'block',
   'light-emitting block': 'block',
-  'plants': 'empty',
-  'block': 'block',
+  plants: 'empty',
+  block: 'block',
   'non-solid; plant': 'empty',
   'wearable items; solid block': 'block',
   'solid, plants': 'block',
@@ -33,12 +33,12 @@ async function getBlockInfo (block) {
       if (err) return reject(err)
 
       const sectionObject = wikiTextParser.pageToSectionObject(data)
-      const infoBox = wikiTextParser.parseInfoBox(sectionObject['content'])
+      const infoBox = wikiTextParser.parseInfoBox(sectionObject.content)
 
       // Get filter light
       let filterLight = 15
       if (infoBox.values.transparent && infoBox.values.transparent.toLowerCase() !== 'no') {
-        let t = infoBox.values.transparent.toLowerCase()
+        const t = infoBox.values.transparent.toLowerCase()
         if (t === 'yes') filterLight = 0
         if (t === 'partial <small>(blocks light)</small>') filterLight = 15
         if (t === 'partial <small>(-2 to light)</small>') filterLight = 2
@@ -51,7 +51,7 @@ async function getBlockInfo (block) {
       // Get emit light
       let emitLight = 0
       if (infoBox.values.light && infoBox.values.light.toLowerCase() !== 'no') {
-        let n = parseInt(infoBox.values.light.split(',')[1])
+        const n = parseInt(infoBox.values.light.split(',')[1])
         if (!isNaN(n) && n !== null) emitLight = n
       }
 
@@ -93,9 +93,9 @@ function toolToHarvestTools (tool) {
   if (tool === 'sword') tool = 'wooden sword' // for cobweb
   else if (tool === 'shears') harvestTools.push('shears')
   else {
-    let parts = tool.split(' ')
-    let material = parts[0]
-    let toolName = parts[1]
+    const parts = tool.split(' ')
+    const material = parts[0]
+    const toolName = parts[1]
     let adding = false
     toolMaterials.forEach((toolMaterial) => {
       if (toolMaterial === material) adding = true

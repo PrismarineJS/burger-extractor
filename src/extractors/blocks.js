@@ -8,10 +8,8 @@ const fs = require('fs')
 const path = require('path')
 const chalk = require('chalk')
 
-
-function jsUcfirst(string)
-{
-  return string.charAt(0).toUpperCase() + string.slice(1);
+function jsUcfirst (string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
 module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, reject) => {
@@ -23,7 +21,7 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
   }
 
   // Extract data
-  for (let name in blocks.block) {
+  for (const name in blocks.block) {
     // For each block extracted by burger
     const block = blocks.block[name]
 
@@ -42,7 +40,7 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
 
     if (block.states) {
       for (var index in block.states) {
-        let state = block.states[index]
+        const state = block.states[index]
         states.push({
           name: state.name,
           type: state.type,
@@ -55,10 +53,10 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
     blockData.states = states
 
     // Get block drops
-    let drops = []
+    const drops = []
 
     // Remove any `wall_` from block id (skeleton_skull item has two blocks, skeleton_skull and skeleton_wall_skull)
-    let idParsed = block.text_id.replace('wall_', '')
+    const idParsed = block.text_id.replace('wall_', '')
     if (items.item[idParsed]) { // If the item exists
       drops.push(items.item[idParsed].numeric_id)
     }

@@ -59,13 +59,13 @@ if (!fs.existsSync(outputDirectory)) {
 const run = async () => {
   // Run extractors
   console.log(chalk.green('\n  Data extraction started'))
-  let date = Date.now()
+  const date = Date.now()
   await Promise.all(extractors.map(extractor => extractor(data, outputDirectory)))
   console.log(chalk.green(`  Data extracted in ${chalk.yellow(`${Date.now() - date}ms`)}`))
 
   // Merge with old data
   console.log(chalk.green('\n  Data merge started'))
-  let date2 = Date.now()
+  const date2 = Date.now()
   await Promise.all(mergers.map(merge => merge(outputDirectory, oldData)))
   console.log(chalk.green(`  Data merged in ${chalk.yellow(`${(Date.now() - date2) / 1000}s`)}`))
 

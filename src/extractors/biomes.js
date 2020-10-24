@@ -10,7 +10,7 @@ module.exports = ({ biomes }, outputDirectory) => new Promise((resolve, reject) 
   const extracted = []
 
   // Extract data
-  for (let name in biomes.biome) {
+  for (const name in biomes.biome) {
     const biome = biomes.biome[name]
 
     const biomeData = {

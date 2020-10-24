@@ -22,5 +22,8 @@
     "inquirer": "^7.1.0",
     "minecraft-data": "^2.36.0",
     "parse-wikitext": "^1.0.0"
+  },
+  "devDependencies": {
+    "standard": "^15.0.0"
   }
 }

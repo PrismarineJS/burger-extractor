@@ -14,7 +14,7 @@ module.exports = ({ recipes, items }, outputDirectory) => new Promise((resolve, 
   }
 
   // For each recipe
-  for (let name in recipes) {
+  for (const name in recipes) {
     const recipeList = recipes[name]
     const recipeData = []
     extracted[findItemByName(name)] = recipeData
@@ -26,8 +26,7 @@ module.exports = ({ recipes, items }, outputDirectory) => new Promise((resolve, 
       const recipeItemList = recipeData
 
       switch (recipe.type) {
-        case 'shape':
-
+        case 'shape': {
           let inShape
           recipeItemList.push({
             count: recipe.amount,
@@ -53,9 +52,8 @@ module.exports = ({ recipes, items }, outputDirectory) => new Promise((resolve, 
           }
 
           break
-
-        case 'shapeless':
-
+        }
+        case 'shapeless': {
           let ingredients
           recipeItemList.push({
             count: recipe.amount,
@@ -74,7 +72,7 @@ module.exports = ({ recipes, items }, outputDirectory) => new Promise((resolve, 
           }
 
           break
-
+        }
         default:
           reject(new Error(`Unexpected recipe type ${recipe.type}`))
           break

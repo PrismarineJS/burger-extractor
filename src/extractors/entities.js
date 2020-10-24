@@ -10,7 +10,7 @@ module.exports = ({ entities }, outputDirectory) => new Promise((resolve, reject
   const extracted = []
 
   // Extract data
-  for (let name in entities.entity) {
+  for (const name in entities.entity) {
     const entity = entities.entity[name]
 
     const entityData = {
@@ -25,7 +25,7 @@ module.exports = ({ entities }, outputDirectory) => new Promise((resolve, reject
     }
     // .type and .category are set in the entity merger
 
-    if(entity.id === undefined) {
+    if (entity.id === undefined) {
       continue
     }
 

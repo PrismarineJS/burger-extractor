@@ -44,7 +44,7 @@ const woodTypes = [
   'stripped_acacia'
 ]
 
-module.exports = (outputDirectory, oldData) => new Promise(async (resolve, reject) => {
+module.exports = async (outputDirectory, oldData) => {
   console.log(chalk.green('    Merging block data'))
   // Read required files
   const blocksPath = path.join(outputDirectory, 'blocks.json')
@@ -57,39 +57,35 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
     if (found && found.length) return found[0].id
     return null
   }
-  
-  function oldIdtoNewId(id) {
 
-	const oldItem = Object.values(oldData.items).filter(item => item.id === id);
+  function oldIdtoNewId (id) {
+    const oldItem = Object.values(oldData.items).filter(item => item.id === id)
 
-	if(!oldItem.length) {
-		console.log(chalk.red(`Can't find old item with id: ${id}`))
-		return null;
-	}
+    if (!oldItem.length) {
+      console.log(chalk.red(`Can't find old item with id: ${id}`))
+      return null
+    }
 
-	const newItem = items.filter(item => item.name === oldItem[0].name);
+    const newItem = items.filter(item => item.name === oldItem[0].name)
 
-	if(!newItem.length) {
-		console.log(chalk.red(`Can't find new item with name: ${oldItem[0].name}`))
-		return null;
-	}
+    if (!newItem.length) {
+      console.log(chalk.red(`Can't find new item with name: ${oldItem[0].name}`))
+      return null
+    }
 
-	return newItem[0].id;
-
+    return newItem[0].id
   }
 
-  function convertHarvestTools(harvestTools) {
+  function convertHarvestTools (harvestTools) {
+    if (!harvestTools) return
 
-	if(!harvestTools) return;
+    const newHarvestTools = {}
 
-	const newHarvestTools = {};
+    Object.keys(harvestTools).forEach(key => {
+      newHarvestTools[oldIdtoNewId(parseInt(key))] = true
+    })
 
-	Object.keys(harvestTools).forEach(key => {
-		newHarvestTools[oldIdtoNewId(parseInt(key))] = true;
-	})
-
-	return newHarvestTools;
-
+    return newHarvestTools
   }
 
   // Loop for each block
@@ -97,7 +93,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
     const block = blocks[i]
 
     // Find the same block in the old version data
-    const [ oldBlock ] = Object.values(oldData.blocks).filter(oldBlock => oldBlock.name === block.name)
+    const [oldBlock] = Object.values(oldData.blocks).filter(oldBlock => oldBlock.name === block.name)
 
     if (oldBlock) {
       console.log(chalk.yellow(`      Merged ${chalk.cyan(block.name)} with ${chalk.blue(oldBlock.name)} (Same block name)`))
@@ -125,7 +121,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       // Filter false positives
       if (!['nether_bricks', 'sandstone_slab', 'tone_wall_torch', 'ice'].includes(name)) {
         // Find if there's a block in the old data with the same name (red_wool -> wool, yellow_terracotta -> terracotta)
-        const [ oldBlock ] = Object.values(oldData.blocks).filter(oldBlock => {
+        const [oldBlock] = Object.values(oldData.blocks).filter(oldBlock => {
           if (name === 'banner') return oldBlock.name === 'standing_banner'
           if (name === 'terracotta') return oldBlock.name === 'white_glazed_terracotta'
 
@@ -162,7 +158,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
       const name = block.name.replace(new RegExp(woodTypes.join('|')), '').substr(1)
 
       // Find if there's a block in the old data with the same name (oak_wood -> oak_log, oak_pressure_plate -> wooden_pressure_plate)
-      const [ oldBlock ] = Object.values(oldData.blocks).filter(oldBlock => {
+      const [oldBlock] = Object.values(oldData.blocks).filter(oldBlock => {
         if (name === 'wood') return oldBlock.name === 'log'
         if (name === 'door') return oldBlock.name === 'wooden_door'
         if (name === 'pressure_plate') return oldBlock.name === 'wooden_pressure_plate'
@@ -193,7 +189,7 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
 
     // Try to manually find the block in the old mcdat
     // Try and find old block
-    const [ oldBlockAttempt ] = Object.values(oldData.blocks).filter(oldBlock => {
+    const [oldBlockAttempt] = Object.values(oldData.blocks).filter(oldBlock => {
       if (block.name.startsWith('potted_')) return oldBlock.name === 'flower_pot'
       if (block.name.startsWith('attached_')) return oldBlock.name === 'melon_stem'
       if (block.name.endsWith('_slab')) return oldBlock.name === 'stone_slab'
@@ -317,5 +313,4 @@ module.exports = (outputDirectory, oldData) => new Promise(async (resolve, rejec
   }
 
   fs.writeFileSync(blocksPath, JSON.stringify(blocks, null, 2))
-  resolve()
-})
+}
