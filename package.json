@@ -7,6 +7,9 @@
     "type": "git",
     "url": "git://github.com/PrismarineJS/burger-extractor.git"
   },
+  "scripts":{
+      "fix": "standard --fix"
+  },
   "keywords": [
     "burger",
     "extractor"
@@ -24,6 +27,6 @@
     "parse-wikitext": "^1.0.0"
   },
   "devDependencies": {
-    "standard": "^15.0.0"
+    "standard": "^16.0.1"
   }
 }

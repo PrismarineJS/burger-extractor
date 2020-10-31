@@ -39,7 +39,7 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
     const states = []
 
     if (block.states) {
-      for (var index in block.states) {
+      for (const index in block.states) {
         const state = block.states[index]
         states.push({
           name: state.name,

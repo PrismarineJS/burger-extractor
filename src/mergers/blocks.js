@@ -301,7 +301,7 @@ module.exports = async (outputDirectory, oldData) => {
       block.harvestTools = blockData.harvestTools
 
       if (block.harvestTools) {
-        Object.keys(block.harvestTools).map(key => {
+        Object.keys(block.harvestTools).forEach(key => {
           delete block.harvestTools[key]
           block.harvestTools[getItemIdFromName(key)] = true
         })

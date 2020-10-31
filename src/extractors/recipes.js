@@ -20,7 +20,7 @@ module.exports = ({ recipes, items }, outputDirectory) => new Promise((resolve, 
     extracted[findItemByName(name)] = recipeData
 
     // For each possible recipe for item
-    for (var i = 0; i < recipeList.length; ++i) {
+    for (let i = 0; i < recipeList.length; ++i) {
       const recipe = recipeList[i]
 
       const recipeItemList = recipeData
@@ -43,7 +43,7 @@ module.exports = ({ recipes, items }, outputDirectory) => new Promise((resolve, 
             const line = recipe.shape[j]
             const shapeLine = []
 
-            for (var k = 0; k < line.length; ++k) {
+            for (let k = 0; k < line.length; ++k) {
               if (line[k]) shapeLine.push(findItemByName(line[k].name))
               else shapeLine.push(null)
             }
@@ -67,7 +67,7 @@ module.exports = ({ recipes, items }, outputDirectory) => new Promise((resolve, 
 
           // For each recipe ingredient
           for (let j = 0; j < recipe.ingredients.length; ++j) {
-            var ingredient = recipe.ingredients[j]
+            const ingredient = recipe.ingredients[j]
             ingredients.push(findItemByName(ingredient.name))
           }
 

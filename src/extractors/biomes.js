@@ -22,9 +22,9 @@ module.exports = ({ biomes }, outputDirectory) => new Promise((resolve, reject) 
     }
 
     // TODO: Compute biome color
-    if (!biomeData.color) {
+    /* if (!biomeData.color) {
 
-    }
+    } */
 
     extracted.push(biomeData)
   }
