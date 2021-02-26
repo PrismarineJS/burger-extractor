@@ -22,7 +22,7 @@
   "homepage": "https://github.com/PrismarineJS/burger-extractor#readme",
   "dependencies": {
     "chalk": "^4.0.0",
-    "inquirer": "^7.1.0",
+    "inquirer": "^8.0.0",
     "minecraft-data": "^2.36.0",
     "parse-wikitext": "^1.0.0"
   },
