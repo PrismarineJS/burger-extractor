@@ -17,7 +17,9 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
   const extracted = []
 
   function findItemByName (name) {
-    return items.item[name].numeric_id || null
+    const item = items.item[name]
+    if (!item) console.warn(chalk.red`      Unknown item "${chalk.cyan(name)}"!`)
+    return item ? item.numeric_id : null
   }
 
   // Extract data
@@ -76,7 +78,7 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
       if (idParsed === 'pumpkin_stem') drops.push(findItemByName('pumpkin_seeds'))
       if (idParsed === 'beetroots') drops.push(findItemByName('beetroot'))
       if (idParsed === 'carrots') drops.push(findItemByName('carrot'))
-      if (idParsed === 'cocoa') drops.push(findItemByName('cocoa_beans'))
+      if (idParsed === 'cocoa') drops.push(findItemByName('cocoa_beans') || findItemByName('dye')) // Cocoa beans were just dye:3 pre-flattening
       if (idParsed === 'kelp_plant') drops.push(findItemByName('kelp'))
       if (idParsed === 'tall_seagrass') drops.push(findItemByName('seagrass'))
     }

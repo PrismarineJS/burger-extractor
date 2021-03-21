@@ -7,8 +7,8 @@
     "type": "git",
     "url": "git://github.com/PrismarineJS/burger-extractor.git"
   },
-  "scripts":{
-      "fix": "standard --fix"
+  "scripts": {
+    "fix": "standard --fix"
   },
   "keywords": [
     "burger",
