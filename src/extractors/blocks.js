@@ -33,6 +33,7 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
       displayName: block.display_name === undefined ? jsUcfirst(block.text_id.replace(/_/g, ' ')) : block.display_name,
       name: block.text_id,
       hardness: block.hardness || 0,
+      resistance: block.resistance || 0,
       minStateId: block.min_state_id,
       maxStateId: block.max_state_id
     }
