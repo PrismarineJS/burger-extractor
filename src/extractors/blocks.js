@@ -7,6 +7,7 @@
 const fs = require('fs')
 const path = require('path')
 const chalk = require('chalk')
+const blockParents = require('../patches/block_properties.json')
 
 function jsUcfirst (string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
@@ -102,6 +103,19 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
     // Push the data
     extracted.push(blockData)
   }
+
+  const lostProperties = ['material', 'hardness', 'resistance', 'blocksMovement', 'ticksRandomly', 'lightLevel', 'blockColors', 'soundType', 'slipperiness', 'speedFactor', 'variableOpacity', 'isSolid', 'isAir', 'requiresTool']
+
+  extracted.forEach(entry => {
+    if (Object.keys(blockParents).includes(entry.name)) {
+      const parent = extracted.find(el => el.name === blockParents[entry.name])
+      if (!parent) return
+
+      lostProperties.forEach(propName => {
+        if (!entry[propName] && parent[propName]) entry[propName] = parent[propName]
+      })
+    }
+  })
 
   // Sort data by id
   extracted.sort((a, b) => (a.id - b.id))
