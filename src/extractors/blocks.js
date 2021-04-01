@@ -7,6 +7,7 @@
 const fs = require('fs')
 const path = require('path')
 const chalk = require('chalk')
+const blockParents = require('../patches/block_properties.json')
 
 function jsUcfirst (string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
@@ -17,7 +18,9 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
   const extracted = []
 
   function findItemByName (name) {
-    return items.item[name].numeric_id || null
+    const item = items.item[name]
+    if (!item) console.warn(chalk.red`      Unknown item "${chalk.cyan(name)}"!`)
+    return item ? item.numeric_id : null
   }
 
   // Extract data
@@ -31,6 +34,7 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
       displayName: block.display_name === undefined ? jsUcfirst(block.text_id.replace(/_/g, ' ')) : block.display_name,
       name: block.text_id,
       hardness: block.hardness || 0,
+      resistance: block.resistance || 0,
       minStateId: block.min_state_id,
       maxStateId: block.max_state_id
     }
@@ -76,7 +80,7 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
       if (idParsed === 'pumpkin_stem') drops.push(findItemByName('pumpkin_seeds'))
       if (idParsed === 'beetroots') drops.push(findItemByName('beetroot'))
       if (idParsed === 'carrots') drops.push(findItemByName('carrot'))
-      if (idParsed === 'cocoa') drops.push(findItemByName('cocoa_beans'))
+      if (idParsed === 'cocoa') drops.push(findItemByName('cocoa_beans') || findItemByName('dye')) // Cocoa beans were just dye:3 pre-flattening
       if (idParsed === 'kelp_plant') drops.push(findItemByName('kelp'))
       if (idParsed === 'tall_seagrass') drops.push(findItemByName('seagrass'))
     }
@@ -99,6 +103,19 @@ module.exports = ({ blocks, items }, outputDirectory) => new Promise((resolve, r
     // Push the data
     extracted.push(blockData)
   }
+
+  const lostProperties = ['material', 'hardness', 'resistance', 'blocksMovement', 'ticksRandomly', 'lightLevel', 'blockColors', 'soundType', 'slipperiness', 'speedFactor', 'variableOpacity', 'isSolid', 'isAir', 'requiresTool']
+
+  extracted.forEach(entry => {
+    if (Object.keys(blockParents).includes(entry.name)) {
+      const parent = extracted.find(el => el.name === blockParents[entry.name])
+      if (!parent) return
+
+      lostProperties.forEach(propName => {
+        if (!entry[propName] && parent[propName]) entry[propName] = parent[propName]
+      })
+    }
+  })
 
   // Sort data by id
   extracted.sort((a, b) => (a.id - b.id))

@@ -1,5 +1,5 @@
 
-// Block extractor
+// Biome extractor
 
 const fs = require('fs')
 const path = require('path')
@@ -8,6 +8,12 @@ const chalk = require('chalk')
 module.exports = ({ biomes }, outputDirectory) => new Promise((resolve, reject) => {
   console.log(chalk.green('    Extracting biome data'))
   const extracted = []
+
+  if (!biomes) { // Burger fails to extract biomes for 1.16?
+    chalk.red('      No biome data found!')
+    resolve()
+    return
+  }
 
   // Extract data
   for (const name in biomes.biome) {
