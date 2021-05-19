@@ -1,4 +1,4 @@
-// Item extractor
+// Particle extractor
 
 const fs = require('fs')
 const path = require('path')
