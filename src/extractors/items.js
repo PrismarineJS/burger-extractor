@@ -5,6 +5,12 @@ const fs = require('fs')
 const path = require('path')
 const chalk = require('chalk')
 
+function toTitle(str) {
+  return str.split('_').map((word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1)
+  }).join(' ')
+}
+
 module.exports = ({ items }, outputDirectory) => new Promise((resolve, reject) => {
   console.log(chalk.green('    Extracting item data'))
   const extracted = []
@@ -13,53 +19,89 @@ module.exports = ({ items }, outputDirectory) => new Promise((resolve, reject) =
   for (const name in items.item) {
     const item = items.item[name]
 
+    if (item.text_id === 'air')
+      continue
+
+
     const itemData = {
       id: item.numeric_id,
-      displayName: item.display_name,
+      displayName: item?.display_name ?? toTitle(item.text_id),
       name: item.text_id,
       stackSize: item.max_stack_size
     }
 
     // Manual fixes
     switch (itemData.name) {
+      case 'brown_mushroom':
+      case 'red_mushroom':
+      case 'stone_button':
+      case 'wooden_button':
+      case 'brown_mushroom_block':
+      case 'red_mushroom_block':
+      case 'end_portal_frame':
+      case 'spawn_egg':
+      case 'monster_egg':
+        itemData.displayName = toTitle(itemData.name)
+        break
+      case 'stone_slab2':
+        itemData.displayName = 'Red Sandstone Slab'
+        break
+      case 'double_plant':
+        itemData.displayName = 'Large Flowers'
+        break
+      case 'yellow_flower':
+        itemData.displayName = 'Dandelion'
+        break
+      case 'red_flower':
+        itemData.displayName = 'Poppy'
+        break
+      case 'record_13':
       case 'music_disc_13':
         itemData.displayName = '13 Disc'
         break
+      case 'record_cat':
       case 'music_disc_cat':
         itemData.displayName = 'Cat Disc'
         break
+      case 'record_blocks':
       case 'music_disc_blocks':
         itemData.displayName = 'Blocks Disc'
         break
+      case 'record_chirp':
       case 'music_disc_chirp':
         itemData.displayName = 'Chirp Disc'
         break
+      case 'record_far':
       case 'music_disc_far':
         itemData.displayName = 'Far Disc'
         break
+      case 'record_mall':
       case 'music_disc_mall':
         itemData.displayName = 'Mall Disc'
         break
+      case 'record_mellohi':
       case 'music_disc_mellohi':
         itemData.displayName = 'Mellohi Disc'
         break
+      case 'record_stal':
       case 'music_disc_stal':
         itemData.displayName = 'Stal Disc'
         break
+      case 'record_strad':
       case 'music_disc_strad':
         itemData.displayName = 'Strad Disc'
         break
+      case 'record_ward':
       case 'music_disc_ward':
         itemData.displayName = 'Ward Disc'
         break
+      case 'record_11':
       case 'music_disc_11':
         itemData.displayName = '11 Disc'
         break
+      case 'record_wait':
       case 'music_disc_wait':
         itemData.displayName = 'Wait Disc'
-        break
-      case 'air':
-        itemData.stackSize = 0
         break
       case 'bow':
       case 'carrot_on_a_stick':
