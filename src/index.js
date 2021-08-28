@@ -13,7 +13,8 @@ const extractors = [
   require('./extractors/entities'),
   require('./extractors/items'),
   require('./extractors/recipes'),
-  require('./extractors/particles')
+  require('./extractors/particles'),
+  require('./extractors/entitymetadata')
 ]
 
 // Import mergers

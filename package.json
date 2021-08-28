@@ -24,6 +24,7 @@
     "chalk": "^4.0.0",
     "inquirer": "^8.0.0",
     "minecraft-data": "^2.36.0",
+    "node-fetch": "^2.6.1",
     "parse-wikitext": "^1.0.0"
   },
   "devDependencies": {
