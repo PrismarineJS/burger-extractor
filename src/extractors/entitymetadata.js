@@ -181,9 +181,11 @@ function getEntityMetadataNames(entities, entityName, obfuscationMap) {
 }
 
 function getEntityParents(entities, entityName) {
+  const originalEntityName = entityName
   const parents = []
   while (entityName) {
-    parents.push(entityName)
+    if (entityName !== originalEntityName)
+      parents.push(entityName)
     entityName = getEntityParent(entities, entityName)
   }
   return parents
