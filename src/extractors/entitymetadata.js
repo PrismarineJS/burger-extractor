@@ -149,7 +149,7 @@ function getEntityMetadataNames(entities, entityName, obfuscationMap) {
 			if (metadataItem.bitfields && bitfieldIndex !== null) {
 				// const mojangField = obfuscationMap[obfuscatedClass].fields[obfuscatedField]
 				// obfuscatedClass
-				const cleanBitfield = {}
+				let cleanBitfield = {}
 				for (const bitfieldItem of metadataItem.bitfields) {
 					const mojangBitfieldItemName = obfuscationMap[bitfieldItem.class ?? obfuscatedClass].methods[bitfieldItem.method]
 					if (!mojangBitfieldItemName) {
@@ -160,6 +160,19 @@ function getEntityMetadataNames(entities, entityName, obfuscationMap) {
 					const bitfieldHexValue = '0x' + bitfieldItem.mask.toString(16)
 					cleanBitfield[bitfieldHexValue] = bitfieldItemName
 				}
+
+        // mojang made the player bitfield annoying to get so it's just hardcoded here until mojang changes it
+        if (Object.keys(cleanBitfield).length === 0 && entityName === 'player') {
+          cleanBitfield = {
+            '0x01': 'capeEnabled',
+            '0x02': 'jacketEnabled',
+            '0x04': 'leftSleeveEnabled',
+            '0x08': 'rightSleeveEnabled',
+            '0x10': 'leftPantsEnabled',
+            '0x20': 'rightPantsEnabled',
+            '0x40': 'hatEnabled'
+          }
+        }
 				mappedMetadataNames[bitfieldIndex] = cleanBitfield
 			}
 
