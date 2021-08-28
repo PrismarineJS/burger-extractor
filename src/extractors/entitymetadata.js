@@ -147,8 +147,6 @@ function getEntityMetadataNames(entities, entityName, obfuscationMap) {
 			}
 
 			if (metadataItem.bitfields && bitfieldIndex !== null) {
-				// const mojangField = obfuscationMap[obfuscatedClass].fields[obfuscatedField]
-				// obfuscatedClass
 				let cleanBitfield = {}
 				for (const bitfieldItem of metadataItem.bitfields) {
 					const mojangBitfieldItemName = obfuscationMap[bitfieldItem.class ?? obfuscatedClass].methods[bitfieldItem.method]
