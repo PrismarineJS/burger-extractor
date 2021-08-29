@@ -180,17 +180,6 @@ function getEntityMetadataNames(entities, entityName, obfuscationMap) {
   return mappedMetadataNames
 }
 
-function getEntityParents(entities, entityName) {
-  const originalEntityName = entityName
-  const parents = []
-  while (entityName) {
-    if (entityName !== originalEntityName)
-      parents.push(entityName)
-    entityName = getEntityParent(entities, entityName)
-  }
-  return parents
-}
-
 
 module.exports = ({ entities, version }, outputDirectory) => new Promise(async (resolve, reject) => {
   console.log(chalk.green('    Extracting entity metadata'))
@@ -205,11 +194,11 @@ module.exports = ({ entities, version }, outputDirectory) => new Promise(async (
 
   // Extract data
   for (const entityName in entities.entity) {
-    const entityParents = getEntityParents(entities.entity, entityName)
+    const entityParent = getEntityParent(entities.entity, entityName)
     const entityMetadata = getEntityMetadata(entities.entity, entityName)
     const entityMetadataNames = getEntityMetadataNames(entities.entity, entityName, obfuscationMap)
     extracted[entityName] = {
-      parents: entityParents,
+      parent: entityParent,
       metadata: entityMetadata.map(({ key, type }) => ({
         metadata: entityMetadataNames[key],
         key,
