@@ -39,7 +39,7 @@ module.exports = ({ recipes, items }, outputDirectory) => new Promise((resolve, 
           })
 
           // For each shape
-          for (let j = recipe.shape.length - 1; j >= 0; --j) {
+          for (let j = 0; j < recipe.shape.length; j++) {
             const line = recipe.shape[j]
             const shapeLine = []
 
