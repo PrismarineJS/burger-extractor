@@ -10,7 +10,7 @@ module.exports = ({ biomes }, outputDirectory) => new Promise((resolve, reject) 
   const extracted = []
 
   if (!biomes) { // Burger fails to extract biomes for 1.16?
-    chalk.red('      No biome data found!')
+    console.log(chalk.red('      No biome data found!'))
     resolve()
     return
   }
