@@ -27,6 +27,6 @@
     "parse-wikitext": "^1.0.0"
   },
   "devDependencies": {
-    "standard": "^16.0.1"
+    "standard": "^17.0.0"
   }
 }
